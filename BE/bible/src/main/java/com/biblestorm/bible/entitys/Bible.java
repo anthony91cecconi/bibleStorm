@@ -13,7 +13,7 @@ import java.util.List;
 public class Bible implements Serializable {
 
     @Id
-    Long id;
+    String id;
     String name;
     Date edition;
     List<Object> books;

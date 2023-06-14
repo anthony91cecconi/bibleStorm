@@ -1,9 +1,8 @@
 package com.biblestorm.bible.controllers;
 
+import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.services.BibleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("bible")
@@ -16,5 +15,10 @@ public class BibleController {
     @GetMapping("/test")
     public String test(){
         return "test";
+    }
+
+    @PostMapping("/new")
+    public Boolean newBible(@RequestBody Bible bible){
+        return this.bibleService.newBible(bible);
     }
 }
