@@ -43,4 +43,8 @@ public class BibleService {
         this.bibleRepository.save(book.getBibleId());
         log.info("libro aggiunto alla bibbia");
     }
+
+    public Bible getBible(String id){
+        return this.bibleRepository.findById(id).get();
+    }
 }

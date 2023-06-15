@@ -3,8 +3,11 @@ package com.biblestorm.bible;
 import com.biblestorm.bible.controllers.BibleController;
 import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.entitys.Book;
+import lombok.extern.java.Log;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,6 +15,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @SpringBootTest
+@Log
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BibleApplicationTests {
 
 	@Autowired
@@ -46,6 +51,12 @@ class BibleApplicationTests {
 	@Order(2)
 	void newBook() {
 		this.bibleController.newBook(this.bookForTest());
+	}
+	@Test
+	@Order(3)
+	void findBible(){
+		Bible bible = this.bibleController.getBible("test(2023)");
+		log.info("nome della bibbia "+ bible.getName() + " contiene libri " + bible.getBooks().size());
 	}
 
 }

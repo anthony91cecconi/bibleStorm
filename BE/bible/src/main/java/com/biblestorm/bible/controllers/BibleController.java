@@ -4,6 +4,7 @@ import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.entitys.Book;
 import com.biblestorm.bible.services.BibleService;
 import com.biblestorm.bible.services.BookService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,5 +25,10 @@ public class BibleController {
     @PostMapping("/new-book")
     public Boolean newBook(@RequestBody Book book){
         return this.bookService.newBook(book);
+    }
+
+    @GetMapping("/get-bible/{id}")
+    public Bible getBible(@PathVariable("id") String id){
+        return this.bibleService.getBible(id);
     }
 }
