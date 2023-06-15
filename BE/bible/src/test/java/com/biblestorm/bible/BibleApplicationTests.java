@@ -2,6 +2,7 @@ package com.biblestorm.bible;
 
 import com.biblestorm.bible.controllers.BibleController;
 import com.biblestorm.bible.entitys.Bible;
+import com.biblestorm.bible.entitys.Book;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,13 @@ class BibleApplicationTests {
 	}
 
 
+	Book bookForTest(){
+		Book book = new Book();
+		book.setName("genprov");
+		book.setBibleId(this.bibleForTest());
+		book.getBibleId().setId( book.getBibleId().getName()+"("+ book.getBibleId().getEdition().getYear()+")");
+		return book;
+	}
 
 
 
@@ -33,6 +41,11 @@ class BibleApplicationTests {
 	@Order(1)
 	void newBible() {
 		this.bibleController.newBible(this.bibleForTest());
+	}
+	@Test
+	@Order(2)
+	void newBook() {
+		this.bibleController.newBook(this.bookForTest());
 	}
 
 }
