@@ -3,6 +3,7 @@ package com.biblestorm.bible;
 import com.biblestorm.bible.controllers.BibleController;
 import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.entitys.Book;
+import com.biblestorm.bible.entitys.Chapter;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -30,14 +31,19 @@ class BibleApplicationTests {
 
 		return bible;
 	}
-
-
 	Book bookForTest(){
 		Book book = new Book();
 		book.setName("genprov");
 		book.setBibleId(this.bibleForTest());
 		book.getBibleId().setId( book.getBibleId().getName()+"("+ book.getBibleId().getEdition().getYear()+")");
 		return book;
+	}
+	Chapter chapterForTest(){
+		Chapter chapter=new Chapter();
+		chapter.setNumber(1);
+		chapter.setBookId(this.bookForTest());
+
+		return chapter;
 	}
 
 
@@ -57,6 +63,12 @@ class BibleApplicationTests {
 	void findBible(){
 		Bible bible = this.bibleController.getBible("test(2023)");
 		log.info("nome della bibbia "+ bible.getName() + " contiene libri " + bible.getBooks().size());
+	}
+
+	@Test
+	@Order(4)
+	void newChapter(){
+		this.bibleController.newChapter(this.chapterForTest());
 	}
 
 }

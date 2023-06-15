@@ -1,9 +1,6 @@
 package com.biblestorm.bible.entitys;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,7 +12,9 @@ public class Book implements Serializable {
     @Id
     String id;
     String name;
-    List<Object> chapters;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Chapter> chapters;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Bible bibleId;
