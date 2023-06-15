@@ -4,6 +4,7 @@ import com.biblestorm.bible.controllers.BibleController;
 import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.entitys.Book;
 import com.biblestorm.bible.entitys.Chapter;
+import com.biblestorm.bible.entitys.Verse;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -19,6 +20,11 @@ import java.util.Date;
 @Log
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BibleApplicationTests {
+	String bibleId = "";
+	String bookId = "";
+	String chapterId = "";
+	String verseId = "";
+
 
 	@Autowired
 	private BibleController bibleController;
@@ -28,22 +34,35 @@ class BibleApplicationTests {
 		bible.setName("test");
 		bible.setEdition(new Date(2023,1,1));
 		bible.setPublisher("prova");
-
+		this.bibleId = bible.getName()+"("+ bible.getEdition().getYear()+")";
+		bible.setId(this.bibleId);
 		return bible;
 	}
 	Book bookForTest(){
 		Book book = new Book();
 		book.setName("genprov");
 		book.setBibleId(this.bibleForTest());
-		book.getBibleId().setId( book.getBibleId().getName()+"("+ book.getBibleId().getEdition().getYear()+")");
+		this.bookId = this.bibleId + "_" + book.getName();
+		book.setId(this.bookId);
 		return book;
 	}
 	Chapter chapterForTest(){
 		Chapter chapter=new Chapter();
 		chapter.setNumber(1);
 		chapter.setBookId(this.bookForTest());
-
+		this.chapterId = this.bookId + "-" + chapter.getNumber();
+		chapter.setId(this.chapterId);
 		return chapter;
+	}
+
+	Verse verseForTest(){
+		Verse verse=new Verse();
+		verse.setNumber(1);
+		verse.setContent("prova");
+		verse.setChapterId(this.chapterForTest());
+		this.verseId = this.chapterId + ":" + verse.getNumber();
+		verse.setId(this.chapterId);
+		return verse;
 	}
 
 
@@ -71,4 +90,16 @@ class BibleApplicationTests {
 		this.bibleController.newChapter(this.chapterForTest());
 	}
 
+	@Test
+	@Order(5)
+	void findBook(){
+		Book book = this.bibleController.getBook("test(2023)=genprov");
+		log.info("nome libro "+ book.getName());// + " contiene capitoli " + book.getChapters().size());
+	}
+
+	@Test
+	@Order(6)
+	void newVerse(){
+		this.bibleController.newVerse(this.verseForTest());
+	}
 }

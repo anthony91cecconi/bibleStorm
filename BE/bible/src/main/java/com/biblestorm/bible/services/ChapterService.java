@@ -1,10 +1,15 @@
 package com.biblestorm.bible.services;
 
 import com.biblestorm.bible.entitys.Chapter;
+import com.biblestorm.bible.entitys.Verse;
 import com.biblestorm.bible.repositories.BookRepository;
 import com.biblestorm.bible.repositories.ChapterRepository;
+import com.biblestorm.bible.repositories.VerseRepository;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Log
@@ -18,10 +23,8 @@ public class ChapterService {
     }
 
     public boolean newChapter(Chapter chapter){
-        chapter.setId(chapter.getBookId().getId() + "-" + chapter.getNumber());
-
         if (chapter.getBookId().getId()==null){
-            log.warning("bibbia non specificata operazione fallita");
+            log.warning("libro non specificato operazione fallita");
             return false;
         }
         chapter.setId(chapter.getBookId().getId() + "-" + chapter.getNumber());
@@ -34,6 +37,20 @@ public class ChapterService {
             log.info("libro salvato correttamente");
             return true;
         }
+    }
+
+    public void addVerse(Verse verse){
+        List<Verse> verses;
+        if(verse.getChapterId().getVerses() == null){
+            verses = new ArrayList<>();
+        }else {
+            verses = verse.getChapterId().getVerses();
+        }
+
+        verses.add(verse);
+        verse.getChapterId().setVerses(verses);
+        this.chapterRepository.save(verse.getChapterId());
+        log.info("capitolo aggiunto al libro");
     }
 
 }

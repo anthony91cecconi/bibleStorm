@@ -1,5 +1,6 @@
 package com.biblestorm.bible.services;
 
+import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.entitys.Book;
 import com.biblestorm.bible.entitys.Chapter;
 import com.biblestorm.bible.repositories.BookRepository;
@@ -24,7 +25,7 @@ public class BookService {
             log.warning("bibbia non specificata operazione fallita");
             return false;
         }
-        book.setId(book.getBibleId().getId() + "=" + book.getName());
+        book.setId(book.getBibleId().getId() + "_" + book.getName());
         if(this.bookRepository.existsById(book.getId())) {
             log.warning("elemento gia presente in archivio");
             return false;
@@ -48,6 +49,10 @@ public class BookService {
         chapter.getBookId().setChapters(chapters);
         this.bookRepository.save(chapter.getBookId());
         log.info("capitolo aggiunto al libro");
+    }
+
+    public Book getBook(String id){
+        return this.bookRepository.findById(id).get();
     }
 
 }
