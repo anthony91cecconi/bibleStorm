@@ -1,6 +1,5 @@
 package com.biblestorm.bible.services;
 
-import com.biblestorm.bible.entitys.Bible;
 import com.biblestorm.bible.entitys.Book;
 import com.biblestorm.bible.entitys.Chapter;
 import com.biblestorm.bible.repositories.BookRepository;
@@ -21,11 +20,11 @@ public class BookService {
     }
 
     public boolean newBook(Book book){
-        if (book.getBibleId().getId()==null){
+        if (book.getBible().getId()==null){
             log.warning("bibbia non specificata operazione fallita");
             return false;
         }
-        book.setId(book.getBibleId().getId() + "_" + book.getName());
+        book.setId(book.getBible().getId() + "_" + book.getName());
         if(this.bookRepository.existsById(book.getId())) {
             log.warning("elemento gia presente in archivio");
             return false;
@@ -39,15 +38,15 @@ public class BookService {
 
     public void addChapter(Chapter chapter){
         List<Chapter> chapters;
-        if(chapter.getBookId().getChapters() == null){
+        if(chapter.getBook().getChapters() == null){
             chapters = new ArrayList<>();
         }else {
-            chapters = chapter.getBookId().getChapters();
+            chapters = chapter.getBook().getChapters();
         }
 
         chapters.add(chapter);
-        chapter.getBookId().setChapters(chapters);
-        this.bookRepository.save(chapter.getBookId());
+        chapter.getBook().setChapters(chapters);
+        this.bookRepository.save(chapter.getBook());
         log.info("capitolo aggiunto al libro");
     }
 

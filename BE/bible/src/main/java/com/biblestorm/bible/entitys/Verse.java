@@ -1,12 +1,10 @@
 package com.biblestorm.bible.entitys;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,8 +12,10 @@ public class Verse implements Serializable {
     @Id
     String id;
     int number;
-    String content;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Sentence> sentences;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Chapter chapterId;
+    Chapter chapter;
 }

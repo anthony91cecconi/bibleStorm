@@ -17,6 +17,6 @@ public class Book implements Serializable {
     List<Chapter> chapters;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Bible bibleId;
+    Bible bible;
 
 }

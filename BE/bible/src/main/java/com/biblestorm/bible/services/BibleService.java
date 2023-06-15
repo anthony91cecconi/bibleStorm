@@ -32,15 +32,15 @@ public class BibleService {
 
     public void addBook(Book book){
         List<Book> books;
-        if(book.getBibleId().getBooks() == null){
+        if(book.getBible().getBooks() == null){
             books = new ArrayList<>();
         }else {
-            books = book.getBibleId().getBooks();
+            books = book.getBible().getBooks();
         }
 
         books.add(book);
-        book.getBibleId().setBooks(books);
-        this.bibleRepository.save(book.getBibleId());
+        book.getBible().setBooks(books);
+        this.bibleRepository.save(book.getBible());
         log.info("libro aggiunto alla bibbia");
     }
 

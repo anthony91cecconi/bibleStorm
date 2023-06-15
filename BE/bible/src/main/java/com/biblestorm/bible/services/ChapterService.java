@@ -2,9 +2,7 @@ package com.biblestorm.bible.services;
 
 import com.biblestorm.bible.entitys.Chapter;
 import com.biblestorm.bible.entitys.Verse;
-import com.biblestorm.bible.repositories.BookRepository;
 import com.biblestorm.bible.repositories.ChapterRepository;
-import com.biblestorm.bible.repositories.VerseRepository;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +21,11 @@ public class ChapterService {
     }
 
     public boolean newChapter(Chapter chapter){
-        if (chapter.getBookId().getId()==null){
+        if (chapter.getBook().getId()==null){
             log.warning("libro non specificato operazione fallita");
             return false;
         }
-        chapter.setId(chapter.getBookId().getId() + "-" + chapter.getNumber());
+        chapter.setId(chapter.getBook().getId() + "-" + chapter.getNumber());
         if(this.chapterRepository.existsById(chapter.getId())) {
             log.warning("elemento gia presente in archivio");
             return false;
@@ -41,16 +39,20 @@ public class ChapterService {
 
     public void addVerse(Verse verse){
         List<Verse> verses;
-        if(verse.getChapterId().getVerses() == null){
+        if(verse.getChapter().getVerses() == null){
             verses = new ArrayList<>();
         }else {
-            verses = verse.getChapterId().getVerses();
+            verses = verse.getChapter().getVerses();
         }
 
         verses.add(verse);
-        verse.getChapterId().setVerses(verses);
-        this.chapterRepository.save(verse.getChapterId());
+        verse.getChapter().setVerses(verses);
+        this.chapterRepository.save(verse.getChapter());
         log.info("capitolo aggiunto al libro");
+    }
+
+    public Chapter getChapter(String id){
+        return this.chapterRepository.findById(id).get();
     }
 
 }

@@ -1,9 +1,6 @@
 package com.biblestorm.bible.controllers;
 
-import com.biblestorm.bible.entitys.Bible;
-import com.biblestorm.bible.entitys.Book;
-import com.biblestorm.bible.entitys.Chapter;
-import com.biblestorm.bible.entitys.Verse;
+import com.biblestorm.bible.entitys.*;
 import com.biblestorm.bible.services.BibleService;
 import com.biblestorm.bible.services.BookService;
 import com.biblestorm.bible.services.ChapterService;
@@ -40,11 +37,6 @@ public class BibleController {
         return this.bibleService.getBible(id);
     }
 
-    @GetMapping("/get-book/{id}")
-    public Book getBook(@PathVariable("id") String id){
-        return this.bookService.getBook(id);
-    }
-
     @PostMapping("/new-chapter")
     public Boolean newChapter(@RequestBody Chapter chapter){
         return this.chapterService.newChapter(chapter);
@@ -54,4 +46,20 @@ public class BibleController {
     public Boolean newVerse(@RequestBody Verse verse){
         return this.verseService.newVerse(verse);
     }
+
+    @GetMapping("/get-chapter/{id}")
+    public Chapter getChapter(@PathVariable("id") String id){
+        return this.chapterService.getChapter(id);
+    }
+
+    @GetMapping("/get-book/{id}")
+    public Book getBook(@PathVariable("id") String id){
+        return this.bookService.getBook(id);
+    }
+
+    @GetMapping("/get-verse/{id}")
+    public Verse getVerse(@PathVariable("id") String id){
+        return this.verseService.getVerse(id);
+    }
+
 }
