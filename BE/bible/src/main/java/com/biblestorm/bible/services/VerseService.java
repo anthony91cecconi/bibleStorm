@@ -1,10 +1,13 @@
 package com.biblestorm.bible.services;
 
+import com.biblestorm.bible.entitys.Sentence;
 import com.biblestorm.bible.entitys.Verse;
 import com.biblestorm.bible.repositories.SentenceRepository;
 import com.biblestorm.bible.repositories.VerseRepository;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Log
@@ -30,16 +33,17 @@ public class VerseService {
             return false;
         }else{
             if ( verse.getSentences() != null){
-                int index = 1;
-                verse.getSentences().forEach(el -> {
-                    el.setId(verse.getId() + "(" +index + ")");
+                final int[] index = {1};
+                List<Sentence> sentences = verse.getSentences().stream().map(el -> {
+                    el.setId(verse.getId() + "(" + index[0] + ")");
+                    index[0]++;
                     el.setVerse(verse);
-                    this.sentenceRepository.save(el);
-                });
+                    return el;
+                }).toList();
+                verse.setSentences(sentences);
             }
-
-            this.verseRepository.save(verse);
             this.chapterService.addVerse(verse);
+            this.verseRepository.save(verse);
             log.info("verso salvato correttamente");
             return true;
         }
