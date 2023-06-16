@@ -18,4 +18,12 @@ public class Verse implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     Chapter chapter;
+
+    @Override
+    public String toString() {
+        return "Verse{" +
+                "id='" + id + '\'' +
+                ", number=" + number +
+                '}';
+    }
 }

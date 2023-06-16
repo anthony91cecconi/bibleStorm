@@ -58,6 +58,7 @@ class BibleApplicationTests {
 		Verse verse=new Verse();
 		verse.setNumber(1);
 		verse.setChapter(this.chapterForTest());
+
 		if(verse.getSentences() == null){
 			List<Sentence> sentences = new ArrayList<Sentence>();
 			Sentence sentence = new Sentence();

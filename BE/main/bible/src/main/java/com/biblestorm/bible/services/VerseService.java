@@ -35,9 +35,9 @@ public class VerseService {
             if ( verse.getSentences() != null){
                 final int[] index = {1};
                 List<Sentence> sentences = verse.getSentences().stream().map(el -> {
-                    el.setId(verse.getId() + "(" + index[0] + ")");
+                    el.setId(el.getVerse().getId() + "(" + index[0] + ")");
                     index[0]++;
-                    el.setVerse(verse);
+                    el.setVerse(el.getVerse());
                     return el;
                 }).toList();
                 verse.setSentences(sentences);
